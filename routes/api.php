@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MaintenanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -22,3 +23,11 @@ Route::controller(UserController::class)->group(function () {
         Route::post('logout', 'logout');
     });
 });
+
+Route::controller(MaintenanceController::class)
+    ->group(function () {
+        Route::middleware(['auth.jwt.cookie'])->group(function () {
+            Route::put('maintenance/{id}', 'updateStatus');
+            Route::post('maintenance', 'create');
+        });
+    });
